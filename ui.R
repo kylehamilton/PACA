@@ -89,7 +89,7 @@ shinyUI(bootstrapPage(
             br(),
 
             h4("Cluster analysis using the principal component scores"),
-            p("(Ward method with the squared Euclidean distance technique)"),
+            textOutput("clusteroptions1.out"),
             downloadButton('downloadPlot5', 'Download the plot as pdf'),
             plotOutput("pcPlot5"),
 
@@ -100,8 +100,22 @@ shinyUI(bootstrapPage(
             verbatimTextOutput("info.out")
 
             ),
-
-
+        tabPanel("Plot Options",
+                 
+                 radioButtons("clusteroptions", strong("Cluster Method"),
+                              c("ward" = "ward",
+                                "single" = "single",
+                                "complete" = "complete",
+                                "average" = "average",
+                                "mcquitty" = "mcquitty",
+                                "median" = "median",
+                                "centroid" = "centroid"
+                              ), selected = "ward"),
+                 p(h6('Options for cluster output, the default is Ward')),
+                 
+                 verbatimTextOutput('clusteroptions.out')
+                 
+        ),
         tabPanel("About",
                  
                  strong('Principal Component Analysis'),

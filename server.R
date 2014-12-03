@@ -152,7 +152,7 @@ shinyServer(function(input, output) {
 
         }
         
-        par(mfrow = c(2, 1))   # グラフを縦に2つ並べる
+        par(mfrow = c(2, 1))
         barplot(pcloadings[,1], main="PC 1", ylim=c(-1,1), cex.names=0.7)
         barplot(pcloadings[,2], main="PC 2", ylim=c(-1,1), cex.names=0.7)
     }
@@ -235,19 +235,19 @@ shinyServer(function(input, output) {
 
         }
         
-        # PC1のminとmax（x軸の最大・最小）
+        
         PCSpc1min <- min(pcscores[,1:2][,1])
         PCSpc1min <- PCSpc1min-(abs(PCSpc1min-PCSpc1min*1.25))
         PCSpc1max <- max(pcscores[,1:2][,1])
         PCSpc1max <- PCSpc1max*1.25
-        # PC2のminとmax（y軸の最大・最小）
+        
         PCSpc2min <- min(pcscores[,1:2][,2])
         PCSpc2min <- PCSpc2min-(abs(PCSpc2min-PCSpc2min*1.25))
         PCSpc2max <- max(pcscores[,1:2][,2])
         PCSpc2max <- PCSpc2max*1.25
         
         plot(pcscores[,1:2], xlab="PC 1", ylab="PC 2", type="n", xlim=c(PCSpc1min, PCSpc1max), ylim=c(PCSpc2min, PCSpc2max), cex.axis=0.8,cex.lab=0.8)
-        #points(pcscores[,1:2],col="red",pch="*",cex=2)
+        
         text(pcscores[,1:2], labels=rowvar, cex=0.9, adj=c(0.25,1.5))
         abline(h=0,lty="dotted")
         abline(v=0,lty="dotted")
@@ -289,21 +289,21 @@ shinyServer(function(input, output) {
 
         }
         
-        # PC1のminとmax（x軸の最大・最小）
+        
         pc1min <- min(c(pcloadings[,1:2][,1], pcscores[,1:2][,1]))
         pc1min <- pc1min*1.25
         pc1max <- max(c(pcloadings[,1:2][,1], pcscores[,1:2][,1]))
         pc1max <- pc1max*1.25
-        # PC2のminとmax（y軸の最大・最小）
+        
         pc2min <- min(c(pcloadings[,1:2][,2], pcscores[,1:2][,2]))
         pc2min <- pc2min*1.25
         pc2max <- max(c(pcloadings[,1:2][,2], pcscores[,1:2][,2]))
         pc2max <- pc2max*1.25
         
-        # 主成分負荷量と主成分得点を同時にプロット
+        
         biplot(pcscores[,1:2], pcloadings[,1:2], var.axes = F, xlim=c(pc1min, pc1max), ylim=c(pc2min, pc2max))
-        abline(v=0, lty=3) #0で縦に線を引き，破線（lty=3）を引く
-        abline(h=0, lty=3) #0で横に線を引き，破線（lty=3）を引く
+        abline(v=0, lty=3)
+        abline(h=0, lty=3) 
     }
     
     
@@ -345,10 +345,10 @@ shinyServer(function(input, output) {
         dat$PCA2 <- pcscores[,2]
         
         z <- dat[, c("PCA1","PCA2")]
-        z.d <- dist(z)^2    # ユークリッド距離の平方（2乗)
-        result <- hclust(z.d, method="ward") # クラスター分析（Ward法と平方ユークリッド距離使用）
+        z.d <- dist(z)^2
+        result <- hclust(z.d, method=input$clusteroptions)
         par(mar=c(1,6,3,1))
-        plot(result, xlab="", sub="") # デンドログラム作図
+        plot(result, xlab="", sub="")
     }
     
     
@@ -393,11 +393,9 @@ shinyServer(function(input, output) {
     })
 
 
-
-
     info <- reactive({
-        info1 <- paste("This analysis was conducted with ", strsplit(R.version$version.string, " \\(")[[1]][1], ".", sep = "")# バージョン情報
-        info2 <- paste("It was executed on ", date(), ".", sep = "")# 実行日時
+        info1 <- paste("This analysis was conducted with ", strsplit(R.version$version.string, " \\(")[[1]][1], ".", sep = "")
+        info2 <- paste("It was executed on ", date(), ".", sep = "")
         cat(sprintf(info1), "\n")
         cat(sprintf(info2), "\n")
     })
@@ -407,13 +405,14 @@ shinyServer(function(input, output) {
     })
     
 
-
-
-
     output$textarea.out <- renderPrint({
         bs()
     })
+  
+    output$clusteroptions.out <- renderPrint({paste("Selected method is:", input$clusteroptions )})
 
+   output$clusteroptions1.out <- renderPrint({paste(input$clusteroptions , "method with the squared Euclidean distance technique")})
+  
     output$correl.out <- renderPrint({
         correl()
     })
