@@ -10,5 +10,9 @@ library(shiny)
 library(shinyAce) 
 library(psych) 
 ```
+This is a Paca, I think he makes a wonderful mascot.
+![alt text](http://i.imgur.com/1F8d31l.jpg "This is a Paca")
 
-![alt text](http://upload.wikimedia.org/wikipedia/commons/3/35/Paca.jpg "This is a Paca")
+Photo by Agência de Notícias do Acre
+Image Licensed under https://creativecommons.org/licenses/by/2.0/
+
