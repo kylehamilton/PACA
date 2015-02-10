@@ -1,5 +1,7 @@
 PACA: Principal Component Analysis with Shiny v0.1
 ====
+[![DOI](https://zenodo.org/badge/9922/kylehamilton/PACA.svg)](http://dx.doi.org/10.5281/zenodo.14967)
+
 The goal of this project is to help students and researchers use principal component analysis as easily as possible.
 
 List of Packages Used 
